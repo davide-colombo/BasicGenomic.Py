@@ -1,0 +1,11 @@
+# The Sequence class
+
+class FastaSequence:
+
+    def __init__(self, seq):
+        self.seq = "".join(seq.split("\n")[1:])
+        self.header = seq.split("\n")[0]
+
+    def to_string(self):
+        print("HEADER: {h}\n"
+              "{seq}".format(h=self.header, seq=self.seq))
