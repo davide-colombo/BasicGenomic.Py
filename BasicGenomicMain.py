@@ -26,6 +26,15 @@ print("\n==================== CONVERTING DNA 2 PROTEIN ====================\n")
 protein_seq = seq_utils.dna_2_protein(dna_seq.seq)
 print(protein_seq)
 
+print("\n==================== CHECK IF SEQUENCES ARE VALID ====================\n")
+is_valid_dna = seq_utils.is_valid_dna(dna_seq.seq)
+is_valid_rna = seq_utils.is_valid_rna(rna_seq)
+is_valid_prot = seq_utils.is_valid_protein(protein_seq)
+
+print("Dna is valid? {}".format(is_valid_dna))
+print("Rna is valid? {}".format(is_valid_rna))
+print("Protein is valid? {}".format(is_valid_prot))
+
 print("\n==================== REVERSE COMPLEMENT ====================\n")
 reverse_compl = seq_utils.reverse_complement(dna_seq.seq)
 print(reverse_compl)

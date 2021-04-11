@@ -162,3 +162,10 @@ s = "ATGTTCGAG"
 for i in range(1, len(s)+1):
     print(s[-i])
 
+print("\n\n REG EX TEST \n\n")
+import re
+pattern = re.compile(r'[BJOUX]')
+matches = pattern.finditer(s)
+
+if not list(matches):
+    print("Empty!")
