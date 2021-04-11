@@ -2,4 +2,6 @@ from FastaSequence import FastaSequence
 
 
 class Protein(FastaSequence):
-    pass
+
+    def print_type(self):
+        print("Protein")

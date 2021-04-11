@@ -9,3 +9,6 @@ class FastaSequence:
     def to_string(self):
         print("HEADER: {h}\n"
               "{seq}".format(h=self.header, seq=self.seq))
+
+    def print_type(self):
+        print("FastaSequence")
