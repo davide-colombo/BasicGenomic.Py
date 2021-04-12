@@ -18,8 +18,10 @@ class SequenceUtils:
         protein = list()
         codons = [dna_seq[i:i + 3] for i in range(0, len(dna_seq), 3)]
         for codon in codons:
-            protein.append(genetic_code.get(codon, "_"))  # This is to avoid to return None type!!!
-        return "".join(protein[:-1])  # remove the '_'
+            protein.append(genetic_code.get(codon, "_"))                # This is to avoid to return None type
+        if protein[0] != "M":                                           # This is for non-canonical codons
+            protein[0] = "M"
+        return "".join(protein[:-1])                                    # remove the '_'
 
     def reverse_complement(self, dna_seq):
         rev_seq = list()

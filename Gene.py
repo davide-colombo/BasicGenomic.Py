@@ -33,3 +33,11 @@ class Gene:
                 max_len = prot_len
                 longest_prot_header = prot.header
         return longest_prot_header
+
+    def get_protein_from_cds(self, cds_obj):
+        cds_header = cds_obj.header
+        cds_number = cds_header[-1]
+        for prot in self.protein_list:
+            if cds_number == prot.header[-1]:
+                return prot
+        raise Exception("No protein associated to cds number {n}".format(n=cds_number))

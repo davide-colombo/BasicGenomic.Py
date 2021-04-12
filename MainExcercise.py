@@ -189,3 +189,31 @@ nanog_gene.dna_seq.print_repeated_sequence_matches()
 print("\n")
 print("pou5f1 Homo sapiens gene repeated sequences are:\n")
 pou5f1_gene.dna_seq.print_repeated_sequence_matches()
+
+print("\n======================== QUESTION 8 ========================\n")
+
+# DOMANDA 8 - Si trovi quante ORF sono presenti negli mRNA in tutti i tre frame di lettura e si verifichi che
+#             una di queste sia la CDS
+
+
+print("\n======================== QUESTION 9 ========================\n")
+
+# DOMANDA 9 - Si svolga la traduzione delle CDS in proteine e si confronti il risultato con la sequenza proteica
+#             depositata
+
+print("nanog Homo sapiens cds translation:\n")
+for cds in nanog_gene.cds_list:
+    translated_cds = seq_utils.dna_2_protein(cds.seq)
+    associated_protein = nanog_gene.get_protein_from_cds(cds)
+    print("{header}: {tr}".format(header=cds.header, tr=translated_cds))
+    print("{header}: {pr}".format(header=associated_protein.header, pr=associated_protein.seq))
+    print("translated cds is equal to associated protein? {}".format(translated_cds == associated_protein.seq))
+
+print("\n")
+print("pou5f1 Homo sapiens cds translation:\n")
+for cds in pou5f1_gene.cds_list:
+    translated_cds = seq_utils.dna_2_protein(cds.seq)
+    associated_protein = pou5f1_gene.get_protein_from_cds(cds)
+    print("{header}: {tr}".format(header=cds.header, tr=translated_cds))
+    print("{header}: {pr}".format(header=associated_protein.header, pr=associated_protein.seq))
+    print("translated cds is equal to associated protein? {}".format(translated_cds == associated_protein.seq))
