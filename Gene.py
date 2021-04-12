@@ -1,5 +1,5 @@
 from FastaSequence import FastaSequence
-
+from SequenceUtils import SequenceUtils
 
 class Gene:
 
@@ -49,3 +49,19 @@ class Gene:
             if cds.header[-1] == rna_number:
                 return cds
         raise Exception("No cds associated to rna number {n}".format(n=rna_number))
+
+    def print_utr_regions(self, seq_utils):
+        for rna in self.rna_list:
+            associated_cds = self.get_cds_from_transcript(rna)
+            orf_matches = seq_utils.get_open_reading_frames(rna.seq)
+            print(rna.header)
+            for orf in orf_matches:
+                if orf.group() == associated_cds.seq:
+                    print("5' UTR goes from 0 to {start} - {five}".
+                          format(start=orf.start(),
+                                 five=rna.seq[0:11] + "..." + rna.seq[orf.start()-11:orf.start()]))
+                    print("3' UTR goes from {end} to {l} - {three}\n".
+                          format(end=orf.end(), l=len(rna.seq),
+                                 three=rna.seq[orf.end():orf.end()+11] + "..." + rna.seq[-11:-1]))
+                    break
+

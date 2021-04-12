@@ -247,3 +247,11 @@ for cds in pou5f1_gene.cds_list:
 print("\n======================== QUESTION 10 ========================\n")
 
 # DOMANDA 10 - Si recuperino le sequenze 5’-UTR e 3’-UTR dei trascritti
+
+print("nanog Homo sapiens transcript UTR regions\n")
+nanog_gene.print_utr_regions(seq_utils)
+print("\n")
+print("pou5f1 Homo sapiens transcript UTR regions\n")
+pou5f1_gene.print_utr_regions(seq_utils)
+
+
