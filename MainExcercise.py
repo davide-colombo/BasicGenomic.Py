@@ -149,3 +149,11 @@ for cds in nanog_gene.cds_list:
 print("\n")
 for cds in pou5f1_gene.cds_list:
     print("{header} is valid? {is_valid}".format(header=cds.header, is_valid=seq_utils.is_valid_cds(cds.seq)))
+
+print("\n======================== QUESTION 4 ========================\n")
+
+# DOMANDA 4 - Per ciascun gene, si calcoli se i trascritti più lunghi corrispondono alle proteine più lunghe
+
+nanog_gene.longest_rna_correspond_2_longest_protein()
+print("\n")
+pou5f1_gene.longest_rna_correspond_2_longest_protein()
