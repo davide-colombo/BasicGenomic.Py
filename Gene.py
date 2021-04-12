@@ -78,26 +78,36 @@ class Gene:
                 if is_first_exon:
                     is_first_exon = False
                     if region_at_index[0] != 0:
-                        print("intragenic region #{n} goes from 1 to {e}".
-                              format(n=intron_count+1, e=region_at_index[0]))
+                        print("intragenic region #{n} goes from 0 to {e}".
+                              format(n=intron_count+1, e=region_at_index[0]-1))
+                        print("intron-exon junction: {j}".
+                              format(j=self.dna_seq.seq[(region_at_index[0]-1):(region_at_index[0]+1)]))
                         region_at_next_index = exon_regions[region_index+1]
                         print("intragenic region #{n} goes from {s} to {e}".
-                              format(n=intron_count+2, s=region_at_index[1]+1, e=region_at_next_index[0]))
+                              format(n=intron_count+2, s=region_at_index[1]+1, e=region_at_next_index[0]-1))
+                        print("intron-exon junction: {j}".
+                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
                         intron_count += 2
                     else:
                         region_at_next_index = exon_regions[region_index+1]
                         print("intragenic region #{n} goes from {s} to {e}".
-                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]))
+                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]-1))
+                        print("intron-exon junction: {j}".
+                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
                         intron_count += 1
                 else:
                     if is_last_exon:
-                        if region_at_index[1] != len(self.dna_seq.seq):
+                        if region_at_index[1] != len(self.dna_seq.seq)-1:
                             print("intragenic region #{n} goes from {s} to {e}".
-                                  format(n=intron_count+1, s=region_at_index[1]+1, e=len(self.dna_seq.seq)))
+                                  format(n=intron_count+1, s=region_at_index[1]+1, e=len(self.dna_seq.seq)-1))
+                            print("intron-exon junction: {j}".
+                                  format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
                     else:
                         region_at_next_index = exon_regions[region_index+1]
                         print("intragenic region #{n} goes from {s} to {e}".
-                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]))
+                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]-1))
+                        print("intron-exon junction: {j}".
+                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
                         intron_count += 1
 
     def get_exon_regions(self, rna_obj):
@@ -105,7 +115,7 @@ class Gene:
         associated_exons = self.get_exon_associated_2_rna(rna_obj)
         for exon in associated_exons:
             start = self.dna_seq.seq.find(exon.seq)
-            end = start + len(exon.seq)
+            end = start + len(exon.seq)-1
             exon_regions.append((start, end))
         return exon_regions
 
