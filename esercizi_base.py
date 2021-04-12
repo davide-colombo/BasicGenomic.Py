@@ -195,7 +195,24 @@ text_to_search = ">Homosapiens-nanog\n" \
                  ">Homosapiens-nanog-transcript3-protein3\n" \
                  ">Homosapiens-nanog-transcript2-exon3"
 
-cds = "CTGGCCTATGATGACGGCCAATAG"
-cds_pattern = re.compile(r'^(ATG|CTG)([ATGC]{3})+(TAG|TGA|TAA)$')
+cds = "ATGCAATGGGGAAATGTTACCAGGTCCGAACTTATTGAGGTAAGACAGATTTAA"
+cds_pattern = re.compile(r'(ATG|CTG)([ATGC]{3})+(TAG|TGA|TAA)')
 matches = cds_pattern.search(cds)
 print(not (not matches))
+
+cds2 = cds[1:-2]
+cds3 = cds[2:-1]
+
+print(cds)
+print(cds2)
+print(cds3)
+print(len(cds2) % 3 == 0)
+print(len(cds3) % 3 == 0)
+
+matches2 = cds_pattern.finditer(cds2)
+for m in matches2:
+    print(m)
+print("\nMatches on the third ORF\n")
+matches3 = cds_pattern.finditer(cds3)
+for m in matches3:
+    print(m)

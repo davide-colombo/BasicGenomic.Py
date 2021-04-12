@@ -41,3 +41,11 @@ class Gene:
             if cds_number == prot.header[-1]:
                 return prot
         raise Exception("No protein associated to cds number {n}".format(n=cds_number))
+
+    def get_cds_from_transcript(self, rna_obj):
+        rna_header = rna_obj.header
+        rna_number = rna_header[-1]
+        for cds in self.cds_list:
+            if cds.header[-1] == rna_number:
+                return cds
+        raise Exception("No cds associated to rna number {n}".format(n=rna_number))

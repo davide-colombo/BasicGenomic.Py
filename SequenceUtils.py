@@ -45,7 +45,12 @@ class SequenceUtils:
         return not list(matches)
 
     def is_valid_cds(self, cds_seq):
-        pattern = re.compile(r'^(ATG|CTG)([ATGC]{3})+(TAG|TGA|TAA)$')
+        pattern = re.compile(r'(ATG|CTG)([ATGC]{3})+(TAG|TGA|TAA)')
         match = pattern.search(cds_seq)
         return not(not match)
+
+    def get_open_reading_frames(self, seq):
+        pattern = re.compile(r'(ATG|CTG)([ATGC]{3})+?(TAG|TGA|TAA)')
+        matches = pattern.finditer(seq)
+        return matches
 

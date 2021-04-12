@@ -195,6 +195,32 @@ print("\n======================== QUESTION 8 ========================\n")
 # DOMANDA 8 - Si trovi quante ORF sono presenti negli mRNA in tutti i tre frame di lettura e si verifichi che
 #             una di queste sia la CDS
 
+print("nanog Homo sapiens Open Reading Frames:\n")
+for rna in nanog_gene.rna_list:
+    orf_matches = seq_utils.get_open_reading_frames(rna.seq)
+    associated_cds = nanog_gene.get_cds_from_transcript(rna)
+    print("\n" + rna.header)
+    is_equal_2_cds = False
+    for orf in orf_matches:
+        if orf.group() == associated_cds.seq:
+            print("orf equal to cds is between {start} - {end}".format(start=orf.start(), end=orf.end()))
+            break
+        else:
+            print("Not equal to cds")
+
+print("\n")
+print("pou5f1 Homo sapiens Open Reading Frames:\n")
+for rna in pou5f1_gene.rna_list:
+    orf_matches = seq_utils.get_open_reading_frames(rna.seq)
+    associated_cds = pou5f1_gene.get_cds_from_transcript(rna)
+    print("\n" + rna.header)
+    is_equal_2_cds = False
+    for orf in orf_matches:
+        if orf.group() == associated_cds.seq:
+            print("orf equal to cds is between {start} - {end}".format(start=orf.start(), end=orf.end()))
+            break
+        else:
+            print("Not equal to cds")
 
 print("\n======================== QUESTION 9 ========================\n")
 
@@ -217,3 +243,7 @@ for cds in pou5f1_gene.cds_list:
     print("{header}: {tr}".format(header=cds.header, tr=translated_cds))
     print("{header}: {pr}".format(header=associated_protein.header, pr=associated_protein.seq))
     print("translated cds is equal to associated protein? {}".format(translated_cds == associated_protein.seq))
+
+print("\n======================== QUESTION 10 ========================\n")
+
+# DOMANDA 10 - Si recuperino le sequenze 5’-UTR e 3’-UTR dei trascritti
