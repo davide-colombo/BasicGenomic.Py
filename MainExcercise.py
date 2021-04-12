@@ -184,3 +184,8 @@ for rna in pou5f1_gene.rna_list:
 print("\n======================== QUESTION 7 ========================\n")
 
 # DOMANDA 7 - Si trovino eventuali sequenze ripetute di A, T, C o G con più di 3 ripetizioni all’interno dei geni
+print("nanog Homo sapiens gene repeated sequences are:\n")
+nanog_gene.dna_seq.print_repeated_sequence_matches()
+print("\n")
+print("pou5f1 Homo sapiens gene repeated sequences are:\n")
+pou5f1_gene.dna_seq.print_repeated_sequence_matches()

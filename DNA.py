@@ -16,3 +16,9 @@ class DNA(FastaSequence):
         pattern = re.compile(r'(ATG)+')
         matches = pattern.finditer(self.seq)
         return len(list(matches))
+
+    def print_repeated_sequence_matches(self):
+        pattern = re.compile(r'((A){4,}|(G){4,}|(T){4,}|(C){4,})')
+        matches = pattern.finditer(self.seq)
+        for m in matches:
+            print(m)
