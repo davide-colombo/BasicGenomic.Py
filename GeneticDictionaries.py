@@ -28,3 +28,15 @@ nucleotide_complements = {
     "C": "G",
     "G": "C"
 }
+
+restriction_sites = {
+    "EcoRI": r'GAATTC',
+    "XbaI": r'TCTAGA',
+    "ClaI": r'ATCGAT',
+    "EaeI": r'(C|T)GGCC(A|G)'
+}
+
+methylated_site = {
+    "XbaI": r'(GATCTAGA|TCTAGATC)',
+    "EaeI": r'(C|T)GGCC(A|G)GG'
+}

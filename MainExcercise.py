@@ -254,12 +254,24 @@ print("\n")
 print("pou5f1 Homo sapiens transcript UTR regions\n")
 pou5f1_gene.print_utr_regions(seq_utils)
 
-print("\n======================== QUESTION 11 ========================\n")
+print("\n======================== QUESTION 11 - 12 ========================\n")
 
 # DOMANDA 11 - Si recuperino le sequenze degli introni per ciascun trascritto
+# DOMANDA 12 - Si analizzino le giunzioni nucleotidiche tra introni ed esoni (2 nucleotidi)
 
 print("nanog Homo sapiens intragenic regions")
 nanog_gene.print_intragenic_regions()
 print("\n")
 print("pou5f1 Homo sapiens intragenic regions")
 pou5f1_gene.print_intragenic_regions()
+
+print("\n======================== QUESTION 13 ========================\n")
+
+# DOMANDA 13 - Si crei un dizionario di siti di restrizione e si verifichi se le sequenze dei geni sono tagliate
+#              dai relativi enzimi e dove
+
+print("nanog Homo sapiens restriction sites\n")
+nanog_gene.search_restriction_site()
+print("\n")
+print("pou5f1 Homo sapiens restriction sites\n")
+pou5f1_gene.search_restriction_site()

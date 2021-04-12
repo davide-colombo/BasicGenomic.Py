@@ -1,6 +1,6 @@
-from FastaSequence import FastaSequence
-from SequenceUtils import SequenceUtils
-
+from GeneticDictionaries import restriction_sites, methylated_site
+import re
+import regex
 
 class Gene:
 
@@ -73,41 +73,41 @@ class Gene:
             is_first_exon = True
             intron_count = 0
             for region_index in range(0, len(exon_regions)):
-                region_at_index = exon_regions[region_index]        # this is a tuple object: (exon_start, exon_end)
+                region_at_index = exon_regions[region_index]  # this is a tuple object: (exon_start, exon_end)
                 is_last_exon = (region_at_index == exon_regions[-1])
                 if is_first_exon:
                     is_first_exon = False
                     if region_at_index[0] != 0:
                         print("intragenic region #{n} goes from 0 to {e}".
-                              format(n=intron_count+1, e=region_at_index[0]-1))
+                              format(n=intron_count + 1, e=region_at_index[0] - 1))
                         print("intron-exon junction: {j}".
-                              format(j=self.dna_seq.seq[(region_at_index[0]-1):(region_at_index[0]+1)]))
-                        region_at_next_index = exon_regions[region_index+1]
+                              format(j=self.dna_seq.seq[(region_at_index[0] - 1):(region_at_index[0] + 1)]))
+                        region_at_next_index = exon_regions[region_index + 1]
                         print("intragenic region #{n} goes from {s} to {e}".
-                              format(n=intron_count+2, s=region_at_index[1]+1, e=region_at_next_index[0]-1))
+                              format(n=intron_count + 2, s=region_at_index[1] + 1, e=region_at_next_index[0] - 1))
                         print("intron-exon junction: {j}".
-                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
+                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1] + 2)]))
                         intron_count += 2
                     else:
-                        region_at_next_index = exon_regions[region_index+1]
+                        region_at_next_index = exon_regions[region_index + 1]
                         print("intragenic region #{n} goes from {s} to {e}".
-                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]-1))
+                              format(n=intron_count + 1, s=region_at_index[1] + 1, e=region_at_next_index[0] - 1))
                         print("intron-exon junction: {j}".
-                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
+                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1] + 2)]))
                         intron_count += 1
                 else:
                     if is_last_exon:
-                        if region_at_index[1] != len(self.dna_seq.seq)-1:
+                        if region_at_index[1] != len(self.dna_seq.seq) - 1:
                             print("intragenic region #{n} goes from {s} to {e}".
-                                  format(n=intron_count+1, s=region_at_index[1]+1, e=len(self.dna_seq.seq)-1))
+                                  format(n=intron_count + 1, s=region_at_index[1] + 1, e=len(self.dna_seq.seq) - 1))
                             print("intron-exon junction: {j}".
-                                  format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
+                                  format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1] + 2)]))
                     else:
-                        region_at_next_index = exon_regions[region_index+1]
+                        region_at_next_index = exon_regions[region_index + 1]
                         print("intragenic region #{n} goes from {s} to {e}".
-                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]-1))
+                              format(n=intron_count + 1, s=region_at_index[1] + 1, e=region_at_next_index[0] - 1))
                         print("intron-exon junction: {j}".
-                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1]+2)]))
+                              format(j=self.dna_seq.seq[(region_at_index[1]):(region_at_index[1] + 2)]))
                         intron_count += 1
 
     def get_exon_regions(self, rna_obj):
@@ -115,7 +115,7 @@ class Gene:
         associated_exons = self.get_exon_associated_2_rna(rna_obj)
         for exon in associated_exons:
             start = self.dna_seq.seq.find(exon.seq)
-            end = start + len(exon.seq)-1
+            end = start + len(exon.seq) - 1
             exon_regions.append((start, end))
         return exon_regions
 
@@ -126,3 +126,34 @@ class Gene:
             if rna_header in exon.header:
                 matched_exon.append(exon)
         return matched_exon
+
+    def search_restriction_site(self):
+        for rs in restriction_sites.keys():
+            meth_site = list()
+            if rs in methylated_site.keys():
+                meth_site.clear()
+                pattern = re.compile(methylated_site.get(rs))
+                matches = pattern.finditer(self.dna_seq.seq)
+                # matches = regex.finditer(methylated_site.get(rs), self.dna_seq.seq, overlapped=True)
+                for m in matches:
+                    meth_site.append((m.start(), m.group()))
+                    # print("methylated site {met} found at {s} - {seq}".format(met=rs, s=m.start(), seq=m.group()))
+            pattern = re.compile(restriction_sites.get(rs))
+            # matches = regex.finditer(restriction_sites.get(rs), self.dna_seq.seq, overlapped=True)
+            matches = pattern.finditer(self.dna_seq.seq)
+            for m in matches:
+                if len(meth_site) != 0:
+                    meth_site_found = False
+                    for meth_index in range(0, len(meth_site)):
+                        meth_tuple = meth_site[meth_index]                      # tuple: (start, group)
+                        if meth_tuple[0] == m.start():
+                            meth_site_found = True
+                            print("METILATED - restriction site {r} found at {s} - {seq}"
+                                  .format(r=rs, s=meth_tuple[0], seq=meth_tuple[1]))
+                    if not meth_site_found:
+                        print("restriction site {r} found at {s} - {seq}"
+                              .format(r=rs, s=m.start(), seq=m.group()))
+
+                else:
+                    print("restriction site {r} found at {s} - {seq}"
+                          .format(r=rs, s=m.start(), seq=m.group()))
