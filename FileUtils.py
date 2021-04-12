@@ -16,6 +16,8 @@ class FileUtils:
                     raise Exception("Not a valid header: {}".format(line))
 
                 if not is_first_seq:
+                    if is_last_seq:
+                        single_seq.append(line)
                     seq_list.append("\n".join(single_seq))
                     single_seq.clear()
                 is_first_seq = False

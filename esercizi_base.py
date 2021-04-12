@@ -195,3 +195,7 @@ text_to_search = ">Homosapiens-nanog\n" \
                  ">Homosapiens-nanog-transcript3-protein3\n" \
                  ">Homosapiens-nanog-transcript2-exon3"
 
+cds = "CTGGCCTATGATGACGGCCAATAG"
+cds_pattern = re.compile(r'^(ATG|CTG)([ATGC]{3})+(TAG|TGA|TAA)$')
+matches = cds_pattern.search(cds)
+print(not (not matches))

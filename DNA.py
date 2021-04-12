@@ -1,6 +1,7 @@
 from FastaSequence import FastaSequence
 import re
 
+
 class DNA(FastaSequence):
 
     def print_type(self):

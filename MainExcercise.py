@@ -144,4 +144,8 @@ print("pou5f1 Homo sapiens gene %GC = {:.3f} %".format(pou5f1_gene.dna_seq.get_g
 print("\n======================== QUESTION 3 ========================\n")
 
 # DOMANDA 3 - Mediante espressione regolare, si verifichi la validità della CDS
-
+for cds in nanog_gene.cds_list:
+    print("{header} is valid? {is_valid}".format(header=cds.header, is_valid=seq_utils.is_valid_cds(cds.seq)))
+print("\n")
+for cds in pou5f1_gene.cds_list:
+    print("{header} is valid? {is_valid}".format(header=cds.header, is_valid=seq_utils.is_valid_cds(cds.seq)))

@@ -41,3 +41,9 @@ class SequenceUtils:
         pattern = re.compile(r'[^AUGC]')
         matches = pattern.finditer(rna_seq)
         return not list(matches)
+
+    def is_valid_cds(self, cds_seq):
+        pattern = re.compile(r'^(ATG|CTG)([ATGC]{3})+(TAG|TGA|TAA)$')
+        match = pattern.search(cds_seq)
+        return not(not match)
+
