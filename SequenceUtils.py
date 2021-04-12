@@ -1,6 +1,7 @@
 from GeneticDictionaries import genetic_code
 from GeneticDictionaries import nucleotide_complements
 import re
+import regex
 
 
 class SequenceUtils:
@@ -50,7 +51,7 @@ class SequenceUtils:
         return not(not match)
 
     def get_open_reading_frames(self, seq):
-        pattern = re.compile(r'(ATG|CTG)([ATGC]{3})+?(TAG|TGA|TAA)')
-        matches = pattern.finditer(seq)
+        pattern = r'(ATG|CTG)([ATGC]{3})+?(TAG|TGA|TAA)'
+        matches = regex.finditer(pattern, seq, overlapped=True)
         return matches
 
