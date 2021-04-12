@@ -254,4 +254,12 @@ print("\n")
 print("pou5f1 Homo sapiens transcript UTR regions\n")
 pou5f1_gene.print_utr_regions(seq_utils)
 
+print("\n======================== QUESTION 11 ========================\n")
 
+# DOMANDA 11 - Si recuperino le sequenze degli introni per ciascun trascritto
+
+print("nanog Homo sapiens intragenic regions")
+nanog_gene.print_intragenic_regions()
+print("\n")
+print("pou5f1 Homo sapiens intragenic regions")
+pou5f1_gene.print_intragenic_regions()

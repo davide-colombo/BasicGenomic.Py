@@ -1,6 +1,7 @@
 from FastaSequence import FastaSequence
 from SequenceUtils import SequenceUtils
 
+
 class Gene:
 
     def __init__(self, dna_seq, rna_list, cds_list, exon_list, protein_list):
@@ -59,9 +60,59 @@ class Gene:
                 if orf.group() == associated_cds.seq:
                     print("5' UTR goes from 0 to {start} - {five}".
                           format(start=orf.start(),
-                                 five=rna.seq[0:11] + "..." + rna.seq[orf.start()-11:orf.start()]))
+                                 five=rna.seq[0:11] + "..." + rna.seq[orf.start() - 11:orf.start()]))
                     print("3' UTR goes from {end} to {l} - {three}\n".
                           format(end=orf.end(), l=len(rna.seq),
-                                 three=rna.seq[orf.end():orf.end()+11] + "..." + rna.seq[-11:-1]))
+                                 three=rna.seq[orf.end():orf.end() + 11] + "..." + rna.seq[-11:-1]))
                     break
 
+    def print_intragenic_regions(self):
+        for rna in self.rna_list:
+            print("\n" + rna.header + "\n")
+            exon_regions = self.get_exon_regions(rna)
+            is_first_exon = True
+            intron_count = 0
+            for region_index in range(0, len(exon_regions)):
+                region_at_index = exon_regions[region_index]        # this is a tuple object: (exon_start, exon_end)
+                is_last_exon = (region_at_index == exon_regions[-1])
+                if is_first_exon:
+                    is_first_exon = False
+                    if region_at_index[0] != 0:
+                        print("intragenic region #{n} goes from 1 to {e}".
+                              format(n=intron_count+1, e=region_at_index[0]))
+                        region_at_next_index = exon_regions[region_index+1]
+                        print("intragenic region #{n} goes from {s} to {e}".
+                              format(n=intron_count+2, s=region_at_index[1]+1, e=region_at_next_index[0]))
+                        intron_count += 2
+                    else:
+                        region_at_next_index = exon_regions[region_index+1]
+                        print("intragenic region #{n} goes from {s} to {e}".
+                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]))
+                        intron_count += 1
+                else:
+                    if is_last_exon:
+                        if region_at_index[1] != len(self.dna_seq.seq):
+                            print("intragenic region #{n} goes from {s} to {e}".
+                                  format(n=intron_count+1, s=region_at_index[1]+1, e=len(self.dna_seq.seq)))
+                    else:
+                        region_at_next_index = exon_regions[region_index+1]
+                        print("intragenic region #{n} goes from {s} to {e}".
+                              format(n=intron_count+1, s=region_at_index[1]+1, e=region_at_next_index[0]))
+                        intron_count += 1
+
+    def get_exon_regions(self, rna_obj):
+        exon_regions = list()
+        associated_exons = self.get_exon_associated_2_rna(rna_obj)
+        for exon in associated_exons:
+            start = self.dna_seq.seq.find(exon.seq)
+            end = start + len(exon.seq)
+            exon_regions.append((start, end))
+        return exon_regions
+
+    def get_exon_associated_2_rna(self, rna_obj):
+        matched_exon = list()
+        rna_header = rna_obj.header
+        for exon in self.exon_list:
+            if rna_header in exon.header:
+                matched_exon.append(exon)
+        return matched_exon
