@@ -1,13 +1,12 @@
 
 import os
-import re
 
 from DNA import DNA
+from Gene import Gene
+
 from SequenceUtils import SequenceUtils
 from FileUtils import FileUtils
 from ListUtils import ListUtils
-
-from Gene import Gene
 
 # ========================================================================================
 
@@ -22,7 +21,7 @@ seq_utils = SequenceUtils()
 file_utils = FileUtils()
 list_utils = ListUtils()
 
-print("\n======================== OPEN AND READING NANOG GENE FILE ========================\n")
+print("\n======================== QUESTION 1 ========================\n")
 with open(nanog_dir + "nanog_gene.txt") as f:
     lines = "".join(f.readlines())
 f.close()
@@ -73,15 +72,13 @@ nanog_gene = Gene(nanog_seq, rna_list, cds_list, exon_list, prot_list)
 # nanog_gene.exon_list[0].print_type()
 # nanog_gene.protein_list[0].to_string()                               # PROTEIN OK
 # nanog_gene.protein_list[0].print_type()
-print("nanog gene OK")
+print("nanog gene OK\n")
 
 # ========================================================================================
 
 #                                  POU5F1 HOMO SAPIENS
 
 # ========================================================================================
-
-print("\n======================== OPEN AND READING POU5F1 GENE FILE ========================\n")
 
 with open(pou5f1_dir + "pou5f1_gene.txt", "r") as f:
     lines = "".join(f.readlines())
@@ -134,4 +131,17 @@ pou5f1_gene = Gene(pou5f1_seq, rna_list, cds_list, exon_list, prot_list)
 # pou5f1_gene.protein_list[0].to_string()                               # PROTEIN OK
 # pou5f1_gene.protein_list[0].print_type()
 print("pou5f1 gene OK")
+
+print("\n======================== QUESTION 2 ========================\n")
+
+# DOMANDA 2 - Per ciascun gene si calcoli lunghezza e contenuto in %GC
+print("nanog Homo sapiens gene length = {}".format(nanog_gene.dna_seq.get_sequence_length()))
+print("nanog Homo sapiens gene %GC = {:.3f} %".format(nanog_gene.dna_seq.get_gc_percentage()))
+print("\n")
+print("pou5f1 Homo sapiens gene length = {}".format(pou5f1_gene.dna_seq.get_sequence_length()))
+print("pou5f1 Homo sapiens gene %GC = {:.3f} %".format(pou5f1_gene.dna_seq.get_gc_percentage()))
+
+print("\n======================== QUESTION 3 ========================\n")
+
+# DOMANDA 3 - Mediante espressione regolare, si verifichi la validità della CDS
 

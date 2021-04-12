@@ -169,3 +169,29 @@ matches = pattern.finditer(s)
 
 if not list(matches):
     print("Empty!")
+
+
+dna = "AAAAGCTACTCTAGAGCGCGCGCAAAAAAAAAA"
+pattern_gc = re.compile(r'(G|C){1}')
+matches = pattern_gc.finditer(dna)
+gc_count = len(list(matches))
+
+if matches:
+    for m in matches:
+        print(m.group() + "\t" + str(m.start()))
+
+perc_gc = (gc_count / len(dna)) * 100
+print(str(perc_gc))
+
+text_to_search = ">Homosapiens-nanog"
+
+pattern = re.compile(r'>(Homosapiens)-(nanog|pou5f1)(-(cds|transcript)[0-9])?(-(protein|exon)[0-9])?')
+matches = pattern.finditer(text_to_search)
+print(len(list(matches)) != 0)
+
+text_to_search = ">Homosapiens-nanog\n" \
+                 ">Homosapiens-nanog-cds1\n" \
+                 ">Homosapiens-nanog-transcript1\n" \
+                 ">Homosapiens-nanog-transcript3-protein3\n" \
+                 ">Homosapiens-nanog-transcript2-exon3"
+
