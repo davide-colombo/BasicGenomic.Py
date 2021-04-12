@@ -58,7 +58,7 @@ with open(nanog_dir + "nanog_transcript.txt") as f:
 f.close()
 
 rna_list = file_utils.split_multiple_sequences(lines)
-rna_list = list_utils.convert_list_to_RNA(rna_list)
+rna_list = list_utils.convert_list_to_DNA(rna_list)
 
 # ========================= NANOG GENE OBJECT =========================
 nanog_gene = Gene(nanog_seq, rna_list, cds_list, exon_list, prot_list)
@@ -116,7 +116,7 @@ with open(pou5f1_dir + "pou5f1_transcript.txt", "r") as f:
 f.close()
 
 rna_list = file_utils.split_multiple_sequences(lines)
-rna_list = list_utils.convert_list_to_RNA(rna_list)
+rna_list = list_utils.convert_list_to_DNA(rna_list)
 
 # ========================= POU5F1 GENE OBJECT =========================
 pou5f1_gene = Gene(pou5f1_seq, rna_list, cds_list, exon_list, prot_list)
@@ -157,3 +157,30 @@ print("\n======================== QUESTION 4 ========================\n")
 nanog_gene.longest_rna_correspond_2_longest_protein()
 print("\n")
 pou5f1_gene.longest_rna_correspond_2_longest_protein()
+
+print("\n======================== QUESTION 5 ========================\n")
+
+# DOMANDA 5 - Si calcoli il reverse-complement dei geni
+
+nanog_reverse_compl = seq_utils.reverse_complement(nanog_gene.dna_seq.seq)
+print("nanog Homo sapiens gene reverse complement is: {}".
+      format(nanog_reverse_compl[:10] + "..." + nanog_reverse_compl[-10:]))
+print("\n")
+pou5f1_reverse_compl = seq_utils.reverse_complement(pou5f1_gene.dna_seq.seq)
+print("pou5f1 Homo sapiens gene reverse complement is: {}".
+      format(pou5f1_reverse_compl[:10] + "..." + pou5f1_reverse_compl[-10:]))
+
+print("\n======================== QUESTION 6 ========================\n")
+
+# DOMANDA 6 - Si trovi quante sequenze ATG sono presenti in ciascun trascritto
+print("nanog Homo sapiens ATG count\n")
+for rna in nanog_gene.rna_list:
+    print("{header}: {count}".format(header=rna.header, count=rna.get_atg_count()))
+print("\n")
+print("pou5f1 Homo sapiens ATG count\n")
+for rna in pou5f1_gene.rna_list:
+    print("{header}: {count}".format(header=rna.header, count=rna.get_atg_count()))
+
+print("\n======================== QUESTION 7 ========================\n")
+
+# DOMANDA 7 - Si trovino eventuali sequenze ripetute di A, T, C o G con più di 3 ripetizioni all’interno dei geni

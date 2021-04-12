@@ -11,3 +11,8 @@ class DNA(FastaSequence):
         pattern = re.compile(r'(G|C){1}')
         matches = pattern.finditer(self.seq)
         return (len(list(matches)) / len(self.seq)) * 100
+
+    def get_atg_count(self):
+        pattern = re.compile(r'(ATG)+')
+        matches = pattern.finditer(self.seq)
+        return len(list(matches))
